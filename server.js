@@ -19,7 +19,7 @@ const appointments = [
     date: '2025-12-05',
     time: '10:30 ص',
     ticketNumber: 'أ-102',
-    notes: 'توجه مباشرة إلى الطابق الأول، الكاونتر أ-102 عادة يكون أقل ازدحاماً.'
+    notes: 'توجه مباشرة إلى الطابق الأول، نافذة أ-102 عادة يكون أقل ازدحاماً.'
   },
   {
      nationalId: '1111222233',
@@ -29,7 +29,7 @@ const appointments = [
     date: '2025-12-06',
     time: '01:15 م',
     ticketNumber: 'ب-057',
-    notes: 'الكاونتر ب-057 قريب من المدخل، غالبًا حركة المرور هنا خفيفة بعد الساعة 1 مساءً.'
+    notes: 'النافذة ب-057 قريب من المدخل، غالبًا حركة المرور هنا خفيفة بعد الساعة 1 مساءً.'
   },
   {
    nationalId: '9876543210',
@@ -39,7 +39,7 @@ const appointments = [
     date: '2025-12-07',
     time: '09:00 ص',
     ticketNumber: 'ج-021',
-    notes: 'توجه إلى الكاونتر ج-021 في الركن الأيمن، عادة يكون أقل ازدحاماً في الصباح الباكر.'
+    notes: 'توجه إلى النافذة ج-021 في الركن الأيمن، عادة يكون أقل ازدحاماً في الصباح الباكر.'
   }
 ];
 
@@ -72,7 +72,7 @@ app.post('/api/verify-selfie', (req, res) => {
     return res.status(404).json({ ok: false, message: 'Appointment not found.' });
   }
 
-  // TODO: here you could receive an image and run real face recognition (in a real system)
+  // here you could receive an image and run real face recognition (in a real system)
   // For now, we just simulate success.
   res.json({
     ok: true,
@@ -90,9 +90,7 @@ app.post('/api/verify-fingerprint', (req, res) => {
     return res.status(404).json({ ok: false, message: 'Appointment not found.' });
   }
 
-  // ⚠️ REAL IMPLEMENTATION NOTE:
   // A real fingerprint scanner would NOT be handled here with just a browser.
-  // You’d have a native app / SDK that does the scan and sends the result to this API.
   // For now, we just simulate success.
   res.json({
     ok: true,
