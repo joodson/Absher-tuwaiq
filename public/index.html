@@ -314,7 +314,6 @@
           type="text"
           id="nationalId"
           maxlength="10"
-          placeholder="مثال: 1234567890"
         />
 
         <button class="btn btn-primary mt-3" id="btnCheckId">
@@ -336,15 +335,15 @@
       <div id="step-2" class="hidden">
         <h2>اختر طريقة التحقق من الهوية</h2>
         <p style="font-size: 14px; color: #4b5563;">
-          يمكنك التحقق باستخدام صورة شخصية (سيلفي) أو باستخدام البصمة.
+          يمكنك التحقق باستخدام صورة شخصية أو باستخدام البصمة.
         </p>
 
         <div class="verification-options">
           <button class="btn btn-outline" id="btnUseSelfie">
-            📷 التحقق بالصورة (سيلفي)
+             التحقق بالصورة
           </button>
           <button class="btn btn-outline" id="btnUseFingerprint">
-            🖐 التحقق بالبصمة
+             التحقق بالبصمة
           </button>
         </div>
 
@@ -403,7 +402,7 @@
         </div>
 
         <button class="btn btn-secondary mt-4" id="btnBackToId">
-          ⬅️ العودة لخطوة رقم الهوية
+           العودة لخطوة رقم الهوية
         </button>
       </div>
 
@@ -609,7 +608,7 @@
       selfieMessage.classList.remove('hidden');
       selfieMessageText.textContent = 'جاري إرسال طلب التحقق...';
 
-      // In a real system, you'd capture a frame from the video and send it.
+      // In a real system, the system will capture a frame from the video and send it.
       try {
         const res = await fetch('/api/verify-selfie', {
           method: 'POST',
