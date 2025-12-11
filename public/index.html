@@ -269,6 +269,44 @@
       color: #6b7280;
       text-align: center;
     }
+
+    /* ------- NEW: QR section styles ------- */
+    .qr-section {
+      margin-top: 24px;
+      padding-top: 16px;
+      border-top: 1px dashed #d1d5db;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .qr-text {
+      font-size: 13px;
+      color: #4b5563;
+      max-width: 360px;
+    }
+
+    #qrContainer {
+      padding: 8px;
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      border: 1px solid #e5e7eb;
+    }
+
+    #qrContainer img, #qrContainer canvas {
+      width: 140px;
+      height: 140px;
+      display: block;
+    }
+
+    .qr-link {
+      font-size: 11px;
+      color: #0f7c4a;
+      margin-top: 6px;
+      word-break: break-all;
+    }
   </style>
 </head>
 <body>
@@ -438,6 +476,19 @@
           <div class="appointment-value" id="apNotes"></div>
         </div>
 
+        <!-- NEW: QR code section -->
+        <div class="qr-section">
+          <div id="qrContainer"></div>
+          <div class="qr-text">
+            <strong>احتفظ بالموعد على هاتفك 📱</strong>
+            <p style="margin: 4px 0 6px;">
+              قم بمسح رمز QR باستخدام جوالك لفتح ملف PDF يحتوي على تفاصيل
+              الموعد كاملة. يمكنك حفظه أو مشاركته عند الحاجة.
+            </p>
+            <div id="qrLink" class="qr-link"></div>
+          </div>
+        </div>
+
         <button class="btn btn-primary mt-4" id="btnNewVisitor">
           إنهاء والانتقال للزائر التالي
         </button>
@@ -448,6 +499,9 @@
       </div>
     </section>
   </main>
+
+  <!-- NEW: QRCode.js library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
   <script>
     const step1 = document.getElementById('step-1');
@@ -490,6 +544,11 @@
     const apNotes = document.getElementById('apNotes');
 
     const btnNewVisitor = document.getElementById('btnNewVisitor');
+
+    // NEW: QR elements
+    const qrContainer = document.getElementById('qrContainer');
+    const qrLink = document.getElementById('qrLink');
+    let qrCodeInstance = null;
 
     let currentNationalId = null;
     let currentStream = null;
@@ -665,6 +724,7 @@
       }
     });
 
+    // Fill appointment + generate QR
     function fillAppointment(ap) {
       apFullName.textContent = ap.fullName;
       apService.textContent = ap.service;
@@ -673,6 +733,22 @@
       apTime.textContent = ap.time;
       apTicket.textContent = ap.ticketNumber;
       apNotes.textContent = ap.notes;
+
+      // NEW: generate PDF URL and QR
+      const pdfUrl = `${window.location.origin}/api/appointment-pdf/${ap.nationalId}`;
+
+      // Clear previous QR if any
+      qrContainer.innerHTML = '';
+      qrLink.textContent = '';
+
+      qrCodeInstance = new QRCode(qrContainer, {
+        text: pdfUrl,
+        width: 140,
+        height: 140,
+        correctLevel: QRCode.CorrectLevel.H
+      });
+
+      qrLink.textContent = pdfUrl;
     }
 
     // New visitor (reset)
@@ -683,6 +759,8 @@
       fingerprintSection.classList.add('hidden');
       fingerprintMessage.classList.add('hidden');
       selfieMessage.classList.add('hidden');
+      qrContainer.innerHTML = '';
+      qrLink.textContent = '';
       stopCamera();
       setStep(1);
     });
